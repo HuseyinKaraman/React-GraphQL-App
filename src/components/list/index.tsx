@@ -16,6 +16,7 @@ export default function List() {
                 />
                 <div className="">
                     <select
+                        value={size}
                         onChange={(e) => setSize(parseInt(e.target.value))}
                         className=" p-2 border border-gray-300"
                     >
