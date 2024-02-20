@@ -35,18 +35,22 @@ export default function CountryList({ queryParams, size }: { queryParams: string
             setTotalPages(Math.ceil(data.countries.length / size));
             setCurrentPage(1);
             setFilterCountries(data.countries.slice(0, size));
-            setSelectedCountryIndex(data?.countries.length >= 10 ? 9 : data.countries.length - 1);
+            setSelectedCountryIndex(
+                data?.countries.length >= 10 && size >= 10
+                    ? 9
+                    : data?.countries.length < 10
+                    ? data?.countries.length - 1
+                    : size - 1
+            );
         }
     }, [data, size]);
 
     useEffect(() => {
         if (data) {
             setFilterCountries(data.countries.slice((currentPage - 1) * size, currentPage * size));
-            setSelectedCountryIndex(size >=10 ? 9 : size-1);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage, data?.countries, size]);
-
 
     const handleSelectCountry = (index: number) => {
         if (index === selectedCountryIndex) {
@@ -54,7 +58,7 @@ export default function CountryList({ queryParams, size }: { queryParams: string
         } else {
             setSelectedCountryIndex(index);
         }
-    }
+    };
 
     if (loading || error) {
         return <p className="text-center">{error ? error.message : "Loading..."}</p>;
