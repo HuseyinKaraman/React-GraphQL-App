@@ -42,6 +42,7 @@ export default function CountryList({ queryParams, size }: { queryParams: string
     useEffect(() => {
         if (data) {
             setFilterCountries(data.countries.slice((currentPage - 1) * size, currentPage * size));
+            setSelectedCountryIndex(size >=10 ? 9 : size-1);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage, data?.countries, size]);
